@@ -38,6 +38,38 @@ public class HexGridMeshGenerator : MonoBehaviour
     }
     #endregion
 
+    #region Mouse Input
+    private void OnEnable()
+    {
+        MouseController.Instance.OnLeftMouseClick += OnLeftMouseClick;
+        MouseController.Instance.OnRightMouseClick += OnRightMouseClick;
+    }
+
+    private void OnDisable()
+    {
+        MouseController.Instance.OnLeftMouseClick -= OnLeftMouseClick;
+        MouseController.Instance.OnRightMouseClick -= OnRightMouseClick;
+    }
+
+    private void OnLeftMouseClick(RaycastHit hit)
+    {
+        Debug.Log("Hit Object: " + hit.transform.name + " at posiion " + hit.point);
+        float localX = hit.point.x - hit.transform.position.x;
+        float localZ = hit.point.z - hit.transform.position.z;
+        Debug.Log("Offset Positiion: " + HexMetrics.CoordinateToOffset(localX, localZ, hexGrid.HexSize, hexGrid.Orientation));
+    }
+
+    private void OnRightMouseClick(RaycastHit hit)
+    {
+        float localX = hit.point.x - hit.transform.position.x;
+        float localZ = hit.point.z - hit.transform.position.z;
+
+        Vector2 location = HexMetrics.CoordinateToOffset(localX, localZ, hexGrid.HexSize, hexGrid.Orientation);
+        Vector3 center = HexMetrics.Center(hexGrid.HexSize, (int)location.x, (int)location.y, hexGrid.Orientation);
+        Debug.Log("Right clicked on: " + location);
+    }
+    #endregion
+
     #region Mesh Creation
     public void CreateHexMesh()
     {
