@@ -59,4 +59,6 @@ public class MouseController : Singleton<MouseController>
                 OnMiddleMouseClick?.Invoke(hit);
         }
     }
+
+
 }

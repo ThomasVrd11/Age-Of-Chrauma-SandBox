@@ -28,30 +28,63 @@ public class HexGrid : MonoBehaviour
     [field:SerializeField] public GameObject HexPrefab { get; private set; } // * Prefab used for hexagonal tiles
     #endregion
 
+    void Start()
+    {
+        AdjustHexGridToTerrain();
+    }
     #region Grid Rendering
     
     private void OnDrawGizmos()
     {
-        // * Draws the hexagonal grid outline using Gizmos
         for (int z = 0; z < Height; z++)
         {
             for (int x = 0; x < Width; x++)
             {
-                // * Calculate the center position of the hexagon
-                Vector3 centrePosition = HexMetrics.Center(HexSize, x, z, Orientation) + transform.position;
-                
-                // * Draw each side of the hexagon
-                for (int s = 0; s < HexMetrics.Corners(HexSize, Orientation).Length; s++)
+                // Compute base position
+                Vector3 basePosition = HexMetrics.Center(HexSize, x, z, Orientation) + transform.position;
+
+                // Get the terrain height for the hex center
+                RaycastHit hit;
+                if (Physics.Raycast(basePosition + Vector3.up * 10f, Vector3.down, out hit, 20f, LayerMask.GetMask("Terrain")))
                 {
-                    Gizmos.DrawLine(
-                        centrePosition + HexMetrics.Corners(HexSize, Orientation)[s % 6],
-                        centrePosition + HexMetrics.Corners(HexSize, Orientation)[(s + 1) % 6]
-                    );
+                    basePosition.y = hit.point.y;
+                }
+
+                // Draw each side of the hexagon
+                for (int s = 0; s < 6; s++)
+                {
+                    Vector3 start = basePosition + HexMetrics.Corners(HexSize, Orientation)[s];
+                    Vector3 end = basePosition + HexMetrics.Corners(HexSize, Orientation)[(s + 1) % 6];
+
+                    // Adjust each corner to follow the terrain
+                    if (Physics.Raycast(start + Vector3.up * 10f, Vector3.down, out hit, 20f, LayerMask.GetMask("Terrain")))
+                    {
+                        start.y = hit.point.y;
+                    }
+                    if (Physics.Raycast(end + Vector3.up * 10f, Vector3.down, out hit, 20f, LayerMask.GetMask("Terrain")))
+                    {
+                        end.y = hit.point.y;
+                    }
+
+                    Gizmos.DrawLine(start, end);
                 }
             }
         }
     }
-    
+
+    #endregion
+    #region Grid to Terrain
+    void AdjustHexGridToTerrain()
+    {
+        foreach (Transform hex in transform)
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(hex.position + Vector3.up * 10f, Vector3.down, out hit, 20f, LayerMask.GetMask("Terrain")))
+            {
+                hex.position = new Vector3(hex.position.x, hit.point.y, hex.position.z);
+            }
+        }
+    }
     #endregion
 }
 
