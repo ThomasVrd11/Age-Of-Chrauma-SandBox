@@ -43,7 +43,7 @@ public class HexGrid : MonoBehaviour
         {
             cells = hexGenerationTask.Result;
             OnMapInfoGenerated?.Invoke();
-            StartCoroutine(InstantiateCells());
+            StartCoroutine(InstantiateCells(cells));
             hexGenerationTask = null;
         }
     }
@@ -65,8 +65,8 @@ public class HexGrid : MonoBehaviour
                 cell.Grid = this;
                 cell.HexSize = HexSize;
                 // * temporary
-                int randomTerrainTypeIndex = rng.Next(0, RessourceManager.Instance.TerrainTypes.Count);
-                TerrainType terrain = RessourceManager.Instance.TerrainTypes[randomTerrainTypeIndex];
+                int randomTerrainTypeIndex = rng.Next(0, ResourceManager.Instance.TerrainTypes.Count);
+                TerrainType terrain = ResourceManager.Instance.TerrainTypes[randomTerrainTypeIndex];
                 cell.SetTerrainType(terrain);
                 hexCells.Add(cell);
             }
