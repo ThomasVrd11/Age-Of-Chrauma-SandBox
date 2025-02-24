@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "TerrainType", menuName = "TerrainType")]
+[CreateAssetMenu(fileName = "TerrainType", menuName = "TBS/TerrainType")]
 public class TerrainType : ScriptableObject
 {
     [Header("Basic Properties")]
