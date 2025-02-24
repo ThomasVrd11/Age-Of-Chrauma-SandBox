@@ -5,7 +5,11 @@ using UnityEngine;
 
 public static class HexMetrics
 {
-    #region Hex Metrics
+    /// <summary>
+    /// Gets the outer radius of the hexagon.
+    /// </summary>
+    /// <param name="hexSize"></param>
+    /// <returns></returns>
     public static float OuterRadius (float hexSize)
     {
         return hexSize;
@@ -83,9 +87,8 @@ public static class HexMetrics
         }
         return centrePosition;
     }
-    #endregion
 
-    #region Coordinate Conversion
+    /*----------Coordinate Conversions-----------*/
     /// <summary>
     /// Converts Offset coordinates to Cube coordinates.
     /// Cube coordinates are used for simplified calculations.
@@ -185,7 +188,6 @@ public static class HexMetrics
     {
         return new Vector2(q, r);
     }
-
     /// <summary>
     /// Converts Cube coordinates to Axial coordinates.
     /// Cube coordianates calculate the S value from the Q and R values.
@@ -285,7 +287,6 @@ public static class HexMetrics
         Vector2 offsetCoordinates = new Vector2(x + (y - (y & 1)) / 2, y);
         return offsetCoordinates;
     }
-
     /// <summary>
     /// Converts Cube coordinates to Offset coordinates for a flat orientation.
     /// Following the odd-q layout.
@@ -299,6 +300,7 @@ public static class HexMetrics
         Vector2 offsetCoordinates = new Vector2(x, y + (x - (x & 1)) / 2);
         return offsetCoordinates;
     }
+
 
     /// <summary>
     /// Rounds the cube coordinates to the nearest hexagon center.
@@ -402,17 +404,4 @@ public static class HexMetrics
     {
         return CubeToOffset(AxialToCube(CoordinateToAxial(x, z, hexSize, orientation)), orientation);
     }
-
-    public static List<Vector2> GetNeighbourCoordinatesList(Vector2 axialCoordinates)
-    {
-        List<Vector2> neighbours = new List<Vector2>();
-        neighbours.Add(new Vector2(axialCoordinates.x + 1, axialCoordinates.y));
-        neighbours.Add(new Vector2(axialCoordinates.x - 1, axialCoordinates.y));
-        neighbours.Add(new Vector2(axialCoordinates.x, axialCoordinates.y + 1));
-        neighbours.Add(new Vector2(axialCoordinates.x, axialCoordinates.y - 1));
-        neighbours.Add(new Vector2(axialCoordinates.x + 1, axialCoordinates.y - 1));
-        neighbours.Add(new Vector2(axialCoordinates.x - 1, axialCoordinates.y + 1));
-        return neighbours;
-    }
-    #endregion
 }
