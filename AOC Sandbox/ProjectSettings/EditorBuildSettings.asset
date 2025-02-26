@@ -11,6 +11,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Main Scene.unity
     guid: ddab490a1817211498e68de1e7e4a886
+  - enabled: 1
+    path: Assets/Scenes/Gacha Scene.unity
+    guid: c883c630a5dd142898cd8b6d30170ee5
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

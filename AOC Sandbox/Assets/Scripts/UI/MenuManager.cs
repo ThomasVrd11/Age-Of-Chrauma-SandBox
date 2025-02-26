@@ -41,4 +41,14 @@ public class MenuManager : MonoBehaviour
         SceneManager.LoadScene("Main Scene");
         
     }
+
+    public void LoadGameStart()
+    {
+        SceneManager.LoadScene("Game Start");
+    }
+
+    public void JustClicked()
+    {
+        Debug.Log("Just clicked");
+    }
 }
